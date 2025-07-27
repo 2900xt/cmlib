@@ -20,7 +20,7 @@ inline Matrix mmake(vector<vector<FP_DTYPE>>& data)
     return out;
 }
 
-Matrix madd(Matrix &a, Matrix &b)
+Matrix madd(const Matrix &a, const Matrix &b)
 {
     if(b.size() != a.size() || b[0].size() != a[0].size())
     {
@@ -35,7 +35,7 @@ Matrix madd(Matrix &a, Matrix &b)
     return out;
 }
 
-Matrix msubtract(Matrix &a, Matrix &b)
+Matrix msubtract(const Matrix &a, const Matrix &b)
 {
     if(b.size() != a.size() || b[0].size() != a[0].size())
     {
@@ -50,7 +50,7 @@ Matrix msubtract(Matrix &a, Matrix &b)
     return out;
 }
 
-Matrix mmultiply(Matrix &a, Matrix &b)
+Matrix mmultiply(const Matrix &a, const Matrix &b)
 {
     if(a[0].size() != b.size())
     {
@@ -71,4 +71,32 @@ Matrix mmultiply(Matrix &a, Matrix &b)
         }
     }
     return out;
+}
+
+Matrix mtranspose(const Matrix &a)
+{
+    Matrix out = mmake(a[0].size(), a.size());
+    for(int i = 0; i < a.size(); i++)
+    {
+        for(int j = 0; j < a[0].size(); j++)
+        {
+            out[j][i] = a[i][j];
+        }
+    }
+
+    return out;
+}
+
+void mprint(const Matrix &a)
+{
+    cout << "[";
+    for(int i = 0; i < a.size(); i++)
+    {
+        vprint(a[i]);
+        if(i != a.size() - 1)
+        {
+            cout << ",\n";
+        }
+    }
+    cout << "]\n";
 }

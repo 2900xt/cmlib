@@ -35,7 +35,7 @@ void plot(vector<plot_data_params> data, const char *title, const char *x_label,
             exit(EXIT_FAILURE);
         }
 
-        string filename = "plot_data_" + to_string(i) + ".txt";
+        string filename = "data/tmp/plot_data_" + to_string(i) + ".txt";
         ofstream file(filename);
 
         for (int i = 0; i < cur.x.size(); i++)
