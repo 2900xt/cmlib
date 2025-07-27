@@ -3,7 +3,7 @@
 #include "matrix.hpp"
 #include "plot.hpp"
 
-FP_DTYPE cost_fn(Matrix X, Matrix y_actual_mat, Matrix weights)
+FP_DTYPE loss_fn(Matrix X, Matrix y_actual_mat, Matrix weights)
 {
     Matrix y_test_mat = mmultiply(X, weights);
     Vector y_test = mtranspose(y_test_mat)[0];
@@ -35,8 +35,11 @@ int main()
     //mprint(y);
 
     //plot({{mtranspose(x)[1], mtranspose(y)[0], "with points"}}, "Test Data", "X", "Y");
+    Matrix weights({{0}, {1.5}});
 
     FP_DTYPE LR = 0.01;
     int epochs = 20;
     Vector costArray{};
+
+    cout << loss_fn(x, y, weights) << endl;
 }
