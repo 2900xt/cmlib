@@ -1,17 +1,4 @@
-#include "config.hpp"
-#include "vector.hpp"
-#include "matrix.hpp"
-#include "plot.hpp"
-
-FP_DTYPE loss_fn(Matrix X, Matrix y_actual_mat, Matrix weights)
-{
-    Matrix y_test_mat = mmultiply(X, weights);
-    Vector y_test = mtranspose(y_test_mat)[0];
-    Vector y_actual = mtranspose(y_actual_mat)[0];
-
-    FP_DTYPE cost = vsum(vsquare(vsubtract(y_actual, y_test)));
-    return cost / (2*X.size());
-}
+#include "config.h"
 
 int main()
 {
@@ -20,7 +7,7 @@ int main()
     int sigma = 2;
 
     Matrix x = mmake(2, num, 1);
-    x[1] = vrand(num, 10, 0);
+    x[1] = vrand(num, 0, 10);
 
     Matrix y = mmake(1, num);
     y[0] = vadd(vmultiply(x[1], slope), bias);
@@ -35,11 +22,20 @@ int main()
     //mprint(y);
 
     //plot({{mtranspose(x)[1], mtranspose(y)[0], "with points"}}, "Test Data", "X", "Y");
-    Matrix weights({{0}, {1.5}});
-
+    Matrix weights = mrand(2, 1);
     FP_DTYPE LR = 0.01;
     int epochs = 20;
     Vector costArray{};
 
-    cout << loss_fn(x, y, weights) << endl;
+    gradient_descent(x, y, weights, costArray, 0.001, 100);
+
+    plot(
+        {
+            {mtranspose(x)[1], mtranspose(y)[0], "with points title 'Data'"},
+            {mtranspose(x)[1], mtranspose(mdot(x, weights))[0], "with lines title 'Best Fit Line'"}
+        },
+        "Line of Best Fit in Data",
+        "Input",
+        "Feature Value"
+    );
 }

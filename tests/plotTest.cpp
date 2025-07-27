@@ -1,6 +1,4 @@
-#include "config.hpp"
-#include "vector.hpp"
-#include "plot.hpp"
+#include "config.h"
 
 int main()
 {

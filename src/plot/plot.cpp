@@ -1,21 +1,11 @@
-#pragma once
-#include "config.hpp"
-#include "vector.hpp"
-#include <fstream>
-#include <vector>
-#include <string>
-#include <cstring>
+#include "plot/plot.h"
 #include <iostream>
+#include <fstream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 
-using namespace std;
-
-struct plot_data_params
-{
-    Vector x, y;
-    string config;
-};
-
-void plot(vector<plot_data_params> data, const char *title, const char *x_label, const char *y_label)
+void plot(std::vector<plot_data_params> data, const char *title, const char *x_label, const char *y_label)
 {
     char command[2048];
     snprintf(command, sizeof(command), R"(
@@ -31,12 +21,12 @@ void plot(vector<plot_data_params> data, const char *title, const char *x_label,
         plot_data_params &cur = data[i];
         if (cur.x.size() != cur.y.size())
         {
-            cerr << "Cannot plot lines with mismatched sizes: " << cur.x.size() << ", " << cur.y.size() << endl;
+            std::cerr << "Cannot plot lines with mismatched sizes: " << cur.x.size() << ", " << cur.y.size() << std::endl;
             exit(EXIT_FAILURE);
         }
 
-        string filename = "data/tmp/plot_data_" + to_string(i) + ".txt";
-        ofstream file(filename);
+        std::string filename = "data/tmp/plot_data_" + std::to_string(i) + ".txt";
+        std::ofstream file(filename);
 
         for (int i = 0; i < cur.x.size(); i++)
         {
@@ -65,4 +55,4 @@ void plot(vector<plot_data_params> data, const char *title, const char *x_label,
 
     printf("Executing command:\n %s\n", command);
     system(command);
-}
+} 
