@@ -13,7 +13,9 @@ FP_DTYPE mse_loss(const Matrix& X, const Matrix& y_actual_mat, const Model& mode
     return cost / (2*X.size());
 }
 
-Matrix mse_gradient(const Matrix& X, const Matrix& y_actual_mat, const Model& model)
+
+//OBSOLETE
+Matrix mse_gradient_precise(const Matrix& X, const Matrix& y_actual_mat, const Model& model)
 {
     Matrix y_test_mat = model.forward(X);
 
@@ -22,6 +24,26 @@ Matrix mse_gradient(const Matrix& X, const Matrix& y_actual_mat, const Model& mo
     Matrix grad = mmultiply(mdivide(product, X.size()), -1);
     return grad;
 }
+
+Matrix mse_gradient(const Matrix& X, const Matrix& y_actual_mat, Model& model)
+{
+    Matrix y_test1_mat = model.forward(X);
+    Matrix grad = mmake(model.weights.size(), 1);
+    for(int i = 0; i < grad.size(); i++)
+    {
+        //df/dx
+        FP_DTYPE f1 = mse_loss(X, y_actual_mat, model);        
+        FP_DTYPE eps = 1e-5;
+        model.weights[i][0] += eps;
+        FP_DTYPE f2 = mse_loss(X, y_actual_mat, model);
+        model.weights[i][0] -= eps;
+
+        grad[i][0] = (f1 - f2) / eps;
+    }
+
+    return grad;
+}
+
 
 void gradient_descent(
     const Matrix &x, 
@@ -39,7 +61,7 @@ void gradient_descent(
         model.weights = madd(model.weights, mmultiply(grad, LR));
 
         if(epoch % debug == 0) {
-            std::cout << "Epoch: " << epoch << "; Loss: " << lossArray.back() << '\n';
+            std::cout << "Epoch: " << epoch << "; Loss: " << lossArray.back() << "; Grad: " << grad << '\n';
         }
     }
 } 

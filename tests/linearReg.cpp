@@ -35,16 +35,12 @@ int main()
     x = mtranspose(x);
     y = mtranspose(y);
     
-    //mprint(x);
-    //mprint(y);
-
-    //plot({{mtranspose(x)[1], mtranspose(y)[0], "with points"}}, "Test Data", "X", "Y");
     FP_DTYPE LR = 0.01;
     int epochs = 20;
     Vector costArray{};
     linreg_model model0{};
 
-    gradient_descent(x, y, model0, costArray, 0.001, 100);
+    gradient_descent(x, y, model0, costArray, 0.001, 100, 2);
 
     plot(
         {
