@@ -54,6 +54,10 @@ run-linearReg: $(BIN_DIR)/linearReg | data/tmp
 	./$(BIN_DIR)/linearReg
 	rm -f data/tmp/*
 
+run-logisticReg: $(BIN_DIR)/logisticReg | data/tmp
+	./$(BIN_DIR)/logisticReg
+	rm -f data/tmp/*
+
 # Clean target
 clean:
 	rm -rf $(OBJ_DIR) $(LIB_DIR) $(BIN_DIR)

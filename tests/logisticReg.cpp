@@ -5,29 +5,35 @@
 #include "alg/grad_descent.h"
 #include "plot/plot.h"
 
-class linreg_model : public Model {
+class logreg_model : public Model {
 public:
-    linreg_model() {
+    logreg_model() {
         this->weights = mrand(2, 1);
     }
 
     Matrix forward (const Matrix &X) const override 
     {
-        return mdot(X, weights);
+        return msigmoid(mdot(X, weights));
     }
 };
 
 int main()
 {
-    FP_DTYPE slope = 2.5, bias = 1.5;
+    FP_DTYPE hi = 1.0, lo = 0.0;
+    FP_DTYPE mid = 0;
     int num = 50;
-    int sigma = 2;
+
+    FP_DTYPE sigma = 0.1;
 
     Matrix x = mmake(2, num, 1);
-    x[1] = vrand(num, 0, 10);
+    x[1] = vrange(-5, 5, 50);
 
     Matrix y = mmake(1, num);
-    y[0] = vadd(vmultiply(x[1], slope), bias);
+    for(int i = 0; i < num; i++)
+    {
+        if(x[1][i] > mid) y[0][i] = hi;
+        else y[0][i] = lo;
+    }
 
     Vector offset = vmultiply(vrand(num, 1, -1), sigma);
     y[0] = vadd(y[0], offset);
@@ -39,17 +45,15 @@ int main()
     //mprint(y);
 
     //plot({{mtranspose(x)[1], mtranspose(y)[0], "with points"}}, "Test Data", "X", "Y");
-    FP_DTYPE LR = 0.01;
-    int epochs = 20;
     Vector costArray{};
-    linreg_model model0{};
+    logreg_model model0{};
 
-    gradient_descent(x, y, model0, costArray, 0.001, 100);
+    gradient_descent(x, y, model0, costArray, 0.01, 10000);
 
     plot(
         {
             {mtranspose(x)[1], mtranspose(y)[0], "with points title 'Data'"},
-            {mtranspose(x)[1], mtranspose(mdot(x, model0.weights))[0], "with lines title 'Best Fit Line'"}
+            {mtranspose(x)[1], mtranspose(model0.forward(x))[0], "with lines title 'Best Fit Line'"}
         },
         "Line of Best Fit in Data",
         "Input",

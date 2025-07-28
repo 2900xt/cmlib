@@ -1,9 +1,11 @@
-#include "alg/grad_descent.h"
-#include <iostream>
+#include "config.h"
+#include "math/matrix.h"
+#include "math/vector.h"
+#include "models/model.h"
 
-FP_DTYPE mse_loss(const Matrix& X, const Matrix& y_actual_mat, const Matrix& weights)
+FP_DTYPE mse_loss(const Matrix& X, const Matrix& y_actual_mat, const Model& model)
 {
-    Matrix y_test_mat = mdot(X, weights);
+    Matrix y_test_mat = model.forward(X);
     Vector y_test = mtranspose(y_test_mat)[0];
     Vector y_actual = mtranspose(y_actual_mat)[0];
 
@@ -11,9 +13,9 @@ FP_DTYPE mse_loss(const Matrix& X, const Matrix& y_actual_mat, const Matrix& wei
     return cost / (2*X.size());
 }
 
-Matrix mse_gradient(const Matrix& X, const Matrix& y_actual_mat, const Matrix& weights)
+Matrix mse_gradient(const Matrix& X, const Matrix& y_actual_mat, const Model& model)
 {
-    Matrix y_test_mat = mdot(X, weights);
+    Matrix y_test_mat = model.forward(X);
 
     Matrix diff = msubtract(y_test_mat, y_actual_mat);
     Matrix product = mdot(mtranspose(X), diff);
@@ -24,17 +26,17 @@ Matrix mse_gradient(const Matrix& X, const Matrix& y_actual_mat, const Matrix& w
 void gradient_descent(
     const Matrix &x, 
     const Matrix &y, 
-    Matrix &weights, 
+    Model &model, 
     Vector &lossArray, 
     FP_DTYPE LR, 
     int epochs, 
-    int debug
+    int debug = 1e9
 ){
     for(int epoch = 0; epoch < epochs; epoch++)
     {
-        lossArray.push_back(mse_loss(x, y, weights));
-        Matrix grad = mse_gradient(x, y, weights);
-        weights = madd(weights, mmultiply(grad, LR));
+        lossArray.push_back(mse_loss(x, y, model));
+        Matrix grad = mse_gradient(x, y, model);
+        model.weights = madd(model.weights, mmultiply(grad, LR));
 
         if(epoch % debug == 0) {
             std::cout << "Epoch: " << epoch << "; Loss: " << lossArray.back() << '\n';

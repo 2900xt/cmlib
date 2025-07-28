@@ -7,6 +7,7 @@
 
 // Vector creation functions
 Vector vrand(int n, FP_DTYPE mn, FP_DTYPE mx);
+Vector vrange(FP_DTYPE start, FP_DTYPE end, int num);
 
 // Vector arithmetic operations
 Vector vadd(const Vector &a, const Vector &b);

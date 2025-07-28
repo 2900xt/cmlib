@@ -9,12 +9,9 @@
 #include <cstdio>
 #include <cstring>
 
-#define FP_DTYPE float
+#define FP_DTYPE long double
 #define Vector std::vector<FP_DTYPE>
 #define Matrix std::vector<Vector>
 
 // Forward declarations for all library modules
-#include "math/vector.h"
-#include "math/matrix.h"
-#include "alg/grad_descent.h"
-#include "plot/plot.h" 
+class Model; 

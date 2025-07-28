@@ -1,4 +1,5 @@
 #include "math/matrix.h"
+#include <cmath>
 
 Matrix mmake(int rows, int cols, FP_DTYPE value)
 {
@@ -171,6 +172,20 @@ Vector msum(const Matrix &a, int dim)
         }
     }
     return {sum};
+}
+
+Matrix msigmoid(const Matrix &a)
+{
+    Matrix out = mmake(a.size(), a[0].size());
+    for(int i = 0; i < a.size(); i++)
+    {
+        for(int j = 0; j < a[0].size(); j++)
+        {
+            out[i][j] = 1/(1 + exp(-a[i][j]));
+        }
+    }
+
+    return out;
 }
 
 std::ostream& operator<<(std::ostream& os, const Matrix& a) 

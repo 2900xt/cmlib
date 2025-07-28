@@ -12,6 +12,21 @@ Vector vrand(int n, FP_DTYPE mn, FP_DTYPE mx)
     return out;
 }
 
+Vector vrange(FP_DTYPE start, FP_DTYPE end, int num)
+{
+    Vector cur(num);
+
+    FP_DTYPE step = (end - start) / num;
+
+    for(int i = 0; i < num; i++)
+    {
+        cur[i] = start;
+        start += step;
+    }
+
+    return cur;
+}
+
 Vector vadd(const Vector &a, const Vector &b)
 {
     if(b.size() != a.size())

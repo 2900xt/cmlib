@@ -15,6 +15,7 @@ Matrix mmultiply(const Matrix &a, const Matrix &b);
 Matrix mmultiply(const Matrix &a, FP_DTYPE val);
 Matrix mdivide(const Matrix &a, const Matrix &b);
 Matrix mdivide(const Matrix &a, FP_DTYPE val);
+Matrix msigmoid(const Matrix &a);
 
 // Matrix operations
 Matrix mdot(const Matrix &a, const Matrix &b);

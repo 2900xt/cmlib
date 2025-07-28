@@ -1,5 +1,5 @@
 #pragma once
-#include "math/matrix.h"
+#include "config.h"
 
 // Loss function
 FP_DTYPE mse_loss(const Matrix& X, const Matrix& y_actual_mat, const Matrix& weights);
@@ -11,7 +11,7 @@ Matrix mse_gradient(const Matrix& X, const Matrix& y_actual_mat, const Matrix& w
 void gradient_descent(
     const Matrix &x, 
     const Matrix &y, 
-    Matrix &weights, 
+    Model &model, 
     Vector &lossArray, 
     FP_DTYPE LR, 
     int epochs, 
