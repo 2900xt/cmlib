@@ -36,11 +36,12 @@ int main()
     y = mtranspose(y);
     
     FP_DTYPE LR = 0.01;
-    int epochs = 20;
+    int epochs = 1000;
     Vector costArray{};
     linreg_model model0{};
 
-    gradient_descent(x, y, model0, costArray, 0.001, 100, 2);
+    gradient_descent(x, y, model0, costArray, LR, epochs, 100);
+    std::cout << "Learned bias, slope: " << mtranspose(model0.weights)[0] << " (true: " << bias << ", " << slope << ")\n";
 
     plot(
         {

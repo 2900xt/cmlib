@@ -2,8 +2,6 @@
 #include "math/vector.h"
 #include <iomanip>
 
-#define Matrix std::vector<Vector>
-
 // Matrix creation functions
 Matrix mmake(int rows, int cols, FP_DTYPE value = 0);
 Matrix mrand(int rows, int cols, FP_DTYPE mn = -1, FP_DTYPE mx = 1);

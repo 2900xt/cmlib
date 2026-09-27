@@ -25,7 +25,7 @@ Matrix madd(const Matrix &a, const Matrix &b)
         exit(EXIT_FAILURE);
     }
     Matrix out = mmake(a.size(), a[0].size());
-    for(int i = 0; i < b.size(); i++)
+    for(size_t i = 0; i < b.size(); i++)
     {
         out[i] = vadd(a[i], b[i]);
     }
@@ -40,7 +40,7 @@ Matrix msubtract(const Matrix &a, const Matrix &b)
         exit(EXIT_FAILURE);
     }
     Matrix out = mmake(a.size(), a[0].size());
-    for(int i = 0; i < b.size(); i++)
+    for(size_t i = 0; i < b.size(); i++)
     {
         out[i] = vsubtract(a[i], b[i]);
     }
@@ -55,7 +55,7 @@ Matrix mmultiply(const Matrix &a, const Matrix &b)
         exit(EXIT_FAILURE);
     }
     Matrix out = mmake(a.size(), a[0].size());
-    for(int i = 0; i < b.size(); i++)
+    for(size_t i = 0; i < b.size(); i++)
     {
         out[i] = vmultiply(a[i], b[i]);
     }
@@ -65,7 +65,7 @@ Matrix mmultiply(const Matrix &a, const Matrix &b)
 Matrix mmultiply(const Matrix &a, FP_DTYPE val)
 {
     Matrix out = mmake(a.size(), a[0].size());
-    for(int i = 0; i < a.size(); i++)
+    for(size_t i = 0; i < a.size(); i++)
     {
         out[i] = vmultiply(a[i], val);
     }
@@ -80,7 +80,7 @@ Matrix mdivide(const Matrix &a, const Matrix &b)
         exit(EXIT_FAILURE);
     }
     Matrix out = mmake(a.size(), a[0].size());
-    for(int i = 0; i < b.size(); i++)
+    for(size_t i = 0; i < b.size(); i++)
     {
         out[i] = vdivide(a[i], b[i]);
     }
@@ -90,7 +90,7 @@ Matrix mdivide(const Matrix &a, const Matrix &b)
 Matrix mdivide(const Matrix &a, FP_DTYPE val)
 {
     Matrix out = mmake(a.size(), a[0].size());
-    for(int i = 0; i < a.size(); i++)
+    for(size_t i = 0; i < a.size(); i++)
     {
         out[i] = vdivide(a[i], val);
     }
@@ -105,12 +105,12 @@ Matrix mdot(const Matrix &a, const Matrix &b)
         exit(EXIT_FAILURE);
     }
     Matrix out = mmake(a.size(), b[0].size());
-    for(int i = 0; i < a.size(); i++)
+    for(size_t i = 0; i < a.size(); i++)
     {
-        for(int j = 0; j < b[0].size(); j++)
+        for(size_t j = 0; j < b[0].size(); j++)
         {
             FP_DTYPE sum = 0;
-            for(int k = 0; k < a[0].size(); k++)
+            for(size_t k = 0; k < a[0].size(); k++)
             {
                 sum += a[i][k] * b[k][j];
             }
@@ -123,9 +123,9 @@ Matrix mdot(const Matrix &a, const Matrix &b)
 Matrix mtranspose(const Matrix &a)
 {
     Matrix out = mmake(a[0].size(), a.size());
-    for(int i = 0; i < a.size(); i++)
+    for(size_t i = 0; i < a.size(); i++)
     {
-        for(int j = 0; j < a[0].size(); j++)
+        for(size_t j = 0; j < a[0].size(); j++)
         {
             out[j][i] = a[i][j];
         }
@@ -140,9 +140,9 @@ Vector msum(const Matrix &a, int dim)
     {
         //vertically sum???
         Vector out(a[0].size());
-        for(int i = 0; i < a[0].size(); i++)
+        for(size_t i = 0; i < a[0].size(); i++)
         {
-            for(int j = 0; j < a.size(); j++)
+            for(size_t j = 0; j < a.size(); j++)
             {
                 out[i] += a[j][i];
             }
@@ -153,9 +153,9 @@ Vector msum(const Matrix &a, int dim)
     if(dim == 1)
     {
         Vector out(a.size());
-        for(int i = 0; i < a.size(); i++)
+        for(size_t i = 0; i < a.size(); i++)
         {
-            for(int j = 0; j < a[0].size(); j++)
+            for(size_t j = 0; j < a[0].size(); j++)
             {
                 out[i] += a[i][j];
             }
@@ -164,9 +164,9 @@ Vector msum(const Matrix &a, int dim)
     }
 
     FP_DTYPE sum = 0;
-    for(int i = 0; i < a.size(); i++)
+    for(size_t i = 0; i < a.size(); i++)
     {
-        for(int j = 0; j < a[0].size(); j++)
+        for(size_t j = 0; j < a[0].size(); j++)
         {
             sum += a[i][j];
         }
@@ -177,9 +177,9 @@ Vector msum(const Matrix &a, int dim)
 Matrix msigmoid(const Matrix &a)
 {
     Matrix out = mmake(a.size(), a[0].size());
-    for(int i = 0; i < a.size(); i++)
+    for(size_t i = 0; i < a.size(); i++)
     {
-        for(int j = 0; j < a[0].size(); j++)
+        for(size_t j = 0; j < a[0].size(); j++)
         {
             out[i][j] = 1/(1 + exp(-a[i][j]));
         }
@@ -194,7 +194,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix& a)
     os << "Shape: (" << a.size() << ", " << a[0].size() << ")\n";
 
     os << "[";
-    for(int i = 0; i < a.size(); i++)
+    for(size_t i = 0; i < a.size(); i++)
     {
         if(i != 0) os << ' ';
         os << a[i];

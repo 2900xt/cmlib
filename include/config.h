@@ -9,9 +9,10 @@
 #include <cstdio>
 #include <cstring>
 
-#define FP_DTYPE long double
-#define Vector std::vector<FP_DTYPE>
-#define Matrix std::vector<Vector>
+// Floating point type used everywhere in the library
+typedef long double FP_DTYPE;
+typedef std::vector<FP_DTYPE> Vector;
+typedef std::vector<Vector> Matrix;
 
 // Forward declarations for all library modules
-class Model; 
+class Model;

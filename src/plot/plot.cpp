@@ -7,6 +7,17 @@
 
 void plot(std::vector<plot_data_params> data, const char *title, const char *x_label, const char *y_label)
 {
+    if(system("command -v gnuplot > /dev/null 2>&1") != 0)
+    {
+        std::cerr << "gnuplot not found, skipping plot '" << title << "'" << std::endl;
+        return;
+    }
+    if(system("mkdir -p data/tmp") != 0)
+    {
+        std::cerr << "Could not create data/tmp, skipping plot '" << title << "'" << std::endl;
+        return;
+    }
+
     char command[2048];
     snprintf(command, sizeof(command), R"(
     gnuplot -p -e "
@@ -16,7 +27,7 @@ void plot(std::vector<plot_data_params> data, const char *title, const char *x_l
         plot )",
     title, x_label, y_label);
 
-    for (int i = 0; i < data.size(); i++)
+    for (size_t i = 0; i < data.size(); i++)
     {
         plot_data_params &cur = data[i];
         if (cur.x.size() != cur.y.size())
@@ -28,9 +39,9 @@ void plot(std::vector<plot_data_params> data, const char *title, const char *x_l
         std::string filename = "data/tmp/plot_data_" + std::to_string(i) + ".txt";
         std::ofstream file(filename);
 
-        for (int i = 0; i < cur.x.size(); i++)
+        for (size_t j = 0; j < cur.x.size(); j++)
         {
-            file << cur.x[i] << " " << cur.y[i] << '\n';
+            file << cur.x[j] << " " << cur.y[j] << '\n';
         }
         file.close();
 
@@ -54,5 +65,8 @@ void plot(std::vector<plot_data_params> data, const char *title, const char *x_l
     snprintf(command + strlen(command), sizeof(command) - strlen(command), "\"");
 
     printf("Executing command:\n %s\n", command);
-    system(command);
+    if(system(command) != 0)
+    {
+        std::cerr << "gnuplot failed" << std::endl;
+    }
 } 
