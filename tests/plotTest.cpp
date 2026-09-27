@@ -1,4 +1,5 @@
 #include "config.h"
+#include "plot/plot.h"
 
 int main()
 {

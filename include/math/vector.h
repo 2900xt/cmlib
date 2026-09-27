@@ -1,9 +1,5 @@
 #pragma once
-#include <vector>
-#include <iostream>
-
-#define FP_DTYPE float
-#define Vector std::vector<FP_DTYPE>
+#include "config.h"
 
 // Vector creation functions
 Vector vrand(int n, FP_DTYPE mn, FP_DTYPE mx);
